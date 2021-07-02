@@ -12,6 +12,9 @@ namespace NoAsyncInvestigation
             base.OnModelCreating(builder);
         }
 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        { }
+
         public DbSet<Model> Models { get; set; }
     }
 }

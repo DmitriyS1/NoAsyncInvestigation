@@ -12,3 +12,6 @@ services:
             - 5444:5432
         volumes:
             - async_db_data:/var/lib/postgresql/data
+
+volumes:
+    async_db_data:

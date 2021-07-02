@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
 
 namespace NoAsyncInvestigation
 {
@@ -34,7 +36,7 @@ namespace NoAsyncInvestigation
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetService<SqlDbContext>();
+                var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
                 if (context.Database.GetPendingMigrations().Any())
                 {
                     context.Database.Migrate();
