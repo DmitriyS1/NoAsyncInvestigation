@@ -23,7 +23,9 @@ namespace NoAsyncInvestigation
                     Price = random.Next()
                 });
             }
-            //_dbContext.Database
+
+            _dbContext.Models.AddRange(data);
+            _dbContext.SaveChanges();
         }
     }
 }
