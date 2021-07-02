@@ -3,22 +3,29 @@ using System.Linq;
 
 namespace NoAsyncInvestigation.Controllers
 {
+    [ApiController]
+    [Route("Home")]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly DbDataGenerator _dbDataGenerator;
 
-        public HomeController(ApplicationDbContext dbContext)
-            => _dbContext = dbContext;
+        public HomeController(
+            ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
+        [HttpGet("Index")]
         public IActionResult Index()
         {
             if (!_dbContext.Models.Any())
             {
-                _dbDataGenerator.SetData();
+                DbDataGenerator.SetData(_dbContext);
             }
 
-            return View();
+            var count = _dbContext.Models.Count();
+
+            return Ok(count);
         }
     }
 }
