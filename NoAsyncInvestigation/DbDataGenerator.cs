@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NoAsyncInvestigation
 {
@@ -7,7 +8,7 @@ namespace NoAsyncInvestigation
     {
         private const int Count = 15000;
 
-        public static void SetData(ApplicationDbContext _dbContext)
+        public static async Task SetData(ApplicationDbContext _dbContext)
         {
             var data = new List<Model>(Count);
             var random = new Random();
@@ -20,8 +21,8 @@ namespace NoAsyncInvestigation
                 });
             }
 
-            _dbContext.Models.AddRange(data);
-            _dbContext.SaveChanges();
+            await _dbContext.Models.AddRangeAsync(data);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
