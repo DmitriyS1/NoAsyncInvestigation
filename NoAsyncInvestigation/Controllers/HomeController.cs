@@ -27,5 +27,29 @@ namespace NoAsyncInvestigation.Controllers
 
             return Ok(count);
         }
+
+        [HttpGet("range")]
+        public IActionResult Range([FromQuery] int start, [FromQuery] int end)
+        {
+            var models = _dbContext.Models.Where(m => m.Id >= start && m.Id < end).ToList();
+
+            return Ok(models);
+        }
+
+        [HttpPost("update")]
+        public IActionResult Update([FromQuery] int id, [FromQuery] int newPrice)
+        {
+            var model = _dbContext.Models.FirstOrDefault(m => m.Id == id);
+            if (model is null)
+            {
+                return StatusCode(422, "Not found entity");
+            }
+
+            model.Price = newPrice;
+            _dbContext.Models.Update(model);
+            _dbContext.SaveChanges();
+
+            return Ok();
+        }
     }
 }
